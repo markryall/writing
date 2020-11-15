@@ -40,8 +40,6 @@ const renderResult = (endTime) => {
 	`;
 };
 
-renderProgress();
-
 let finishing = false;
 let finished = false;
 
