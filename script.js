@@ -36,12 +36,15 @@ const renderResult = (endTime) => {
 	const gross = words / minutes;
 
 	let content = '<div>';
+	let text = '';
 
 	progress.forEach(key => {
 		if (key.nl) {
 			content += `</div><div>`;
+			text += `\n\n`;
 		} else {
 			content += `<span class="right">${key.actual}</span>`;
+			text += key.actual;
 		}
 	});
 
@@ -53,6 +56,14 @@ const renderResult = (endTime) => {
 	`;
 
 	window.scrollTo(0,document.body.scrollHeight);
+
+	const element = document.createElement('a');
+	element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+	element.setAttribute('download', 'writing.txt');
+	element.style.display = 'none';
+	document.body.appendChild(element);
+	element.click();
+	document.body.removeChild(element);
 };
 
 let finishing = false;
