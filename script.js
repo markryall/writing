@@ -24,6 +24,8 @@ const renderProgress = () => {
 	content += `<span class='active'>&nbsp;</span></div>`;
 
 	contentElement.innerHTML = content;
+
+	window.scrollTo(0,document.body.scrollHeight);
 };
 
 const renderResult = (endTime) => {
@@ -33,17 +35,31 @@ const renderResult = (endTime) => {
 	const minutes = seconds / 60;
 	const gross = words / minutes;
 
+	let content = '<div>';
+
+	progress.forEach(key => {
+		if (key.nl) {
+			content += `</div><div>`;
+		} else {
+			content += `<span class="right">${key.actual}</span>`;
+		}
+	});
+
+	contentElement.innerHTML = content;
+
 	resultElement.innerHTML = `
-		<div>Congratulations! You finished in ${round(seconds, 3)} seconds.</div>
-		<div>You typed ${total} characters.</div>
+		<div>You were typing for ${round(seconds, 3)} seconds and typed ${total} characters.</div>
 		<div>Your gross wpm was ${round(gross, 3)}.</div>
 	`;
+
+	window.scrollTo(0,document.body.scrollHeight);
 };
 
 let finishing = false;
 let finished = false;
 
 document.onkeydown = event => {
+	if (event.metaKey) return;
 	if (finished) return;
 
 	const newTime = ts();
